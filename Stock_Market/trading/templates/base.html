@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stockbroker - {% block title %}{% endblock %}</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+    <style>
+        .gradient-bg {
+            background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
+        }
+        .hover-scale {
+            transition: transform 0.3s ease;
+        }
+        .hover-scale:hover {
+            transform: scale(1.05);
+        }
+    </style>
+</head>
+<body class="bg-gray-50 font-sans">
+    <nav class="gradient-bg shadow-lg">
+        <div class="container mx-auto px-4 py-4 flex justify-between items-center">
+            <a href="{% url 'dashboard' %}" class="text-2xl font-bold text-white flex items-center">
+                <i class="fas fa-chart-line mr-2"></i> Stockbroker
+            </a>
+            <div class="flex items-center space-x-6">
+                {% if user.is_authenticated %}
+                    <a href="{% url 'portfolio' %}" class="text-white hover:text-gray-200 transition">Portfolio</a>
+                    <a href="{% url 'dashboard' %}" class="text-white hover:text-gray-200 transition">Dashboard</a>
+                    <a href="{% url 'logout' %}" class="text-white hover:text-gray-200 transition">Logout</a>
+                {% else %}
+                    <a href="{% url 'login' %}" class="text-white hover:text-gray-200 transition">Login</a>
+                    <a href="{% url 'register' %}" class="text-white hover:text-gray-200 transition">Register</a>
+                {% endif %}
+            </div>
+        </div>
+    </nav>
+    <div class="container mx-auto px-4 py-8">
+        {% if messages %}
+            <div class="mb-6">
+                {% for message in messages %}
+                    <div class="bg-{{ message.tags }}-100 border-l-4 border-{{ message.tags }}-500 text-{{ message.tags }}-700 p-4 rounded-lg mb-2 flex items-center">
+                        <i class="fas fa-{% if message.tags == 'success' %}check-circle{% else %}exclamation-circle{% endif %} mr-2"></i>
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+        {% block content %}
+        {% endblock %}
+    </div>
+    <footer class="gradient-bg text-white text-center py-4 mt-8">
+        <p>© 2025 Stockbroker. All rights reserved.</p>
+    </footer>
+</body>
+</html>

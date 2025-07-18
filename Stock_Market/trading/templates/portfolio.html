@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block title %}Portfolio{% endblock %}
+
+{% block content %}
+<div class="bg-white p-6 rounded-lg shadow-xl">
+    <h2 class="text-2xl font-bold text-gray-800 mb-4 flex items-center">
+        <i class="fas fa-briefcase mr-2"></i> Your Portfolio
+    </h2>
+    <p class="text-gray-600 mb-4">Total Portfolio Value: <span class="font-medium text-green-600">${{ total_value }}</span></p>
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        {% for item in portfolio_items %}
+        <div class="border border-gray-200 p-4 rounded-lg bg-white hover-scale shadow-md">
+            <h3 class="text-lg font-semibold text-gray-700">{{ item.stock.name }} ({{ item.stock.symbol }})</h3>
+            <p class="text-gray-600 mt-2">Quantity: {{ item.quantity }}</p>
+            <p class="text-gray-600">Current Price: <span class="font-medium text-green-600">${{ item.stock.price }}</span></p>
+            <p class="text-gray-600">Purchase Price: <span class="font-medium">${{ item.purchase_price }}</span></p>
+            <form method="post" action="{% url 'sell_stock' %}" class="mt-3">
+                {% csrf_token %}
+                <input type="hidden" name="stock_id" value="{{ item.stock.id }}">
+                <input type="number" name="quantity" min="1" max="{{ item.quantity }}" class="border border-gray-300 rounded-lg p-2 w-20 focus:ring-2 focus:ring-blue-500" placeholder="Qty" required>
+                <button type="submit" class="bg-red-600 text-white px-3 py-1 rounded-lg hover:bg-red-700 ml-2">Sell</button>
+            </form>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
