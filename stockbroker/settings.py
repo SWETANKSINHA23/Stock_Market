@@ -85,7 +85,7 @@ WSGI_APPLICATION = 'stockbroker.wsgi.application'
 
 DATABASES = {
    'default': dj_database_url.parse(
-       'postgresql://postgres.rvsfptbrdnqjycdwhczt:Aman109dhn@@aws-0-ap-south-1.pooler.supabase.com:5432/postgres',
+       '"postgresql://postgres.rckvplyvewahiuvqxcls:Shrishti2410@@aws-0-ap-south-1.pooler.supabase.com:5432/postgres"',
    )
 }
 
